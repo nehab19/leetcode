@@ -1,0 +1,32 @@
+/**leetcode link : https://leetcode.com/problems/check-if-one-string-swap-can-make-strings-equal/ **/
+
+import java.util.Arrays;
+
+public class StringEqual {
+    public boolean areAlmostEqual(String s1, String s2) {
+        if (s1.equals(s2)) {
+            return true;
+        }
+
+        char[] s1Frequency = new char[26];
+        char[] s2Frequency = new char[26];
+        int differences = 0;
+
+        for (int i = 0; i < s1.length(); i++) {
+            char s1Char = s1.charAt(i);
+            char s2Char = s2.charAt(i);
+
+            if (s1Char != s2Char) {
+                differences++;
+
+                if (differences > 2) {
+                    return false;
+                }
+            }
+            // increment the frequencies
+            s1Frequency[s1Char - 'a']++;
+            s2Frequency[s2Char - 'a']++;
+        }
+        return Arrays.equals(s1Frequency, s2Frequency);
+    }
+}
