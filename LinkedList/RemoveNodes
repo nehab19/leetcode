@@ -1,0 +1,32 @@
+**/leetcode link : https://leetcode.com/problems/remove-nodes-from-linked-list/ **/
+
+import java.util.Stack;
+
+public class RemoveNodes {
+    public ListNode removeNodes(ListNode head) {
+        Stack<ListNode> stack = new Stack<>();
+        ListNode current = head;
+
+        while (current != null) {
+            stack.push(current);
+            current = current.next;
+        }
+
+        current = stack.pop();
+        int maximum = current.val;
+        ListNode result = new ListNode(maximum);
+
+        while (!stack.isEmpty()) {
+            current = stack.pop();
+            if (current.val < maximum) {
+                continue;
+            } else {
+                ListNode newNode = new ListNode(current.val);
+                newNode.next = result;
+                result = newNode;
+                maximum = current.val;
+            }
+        }
+        return result;
+    }
+}
