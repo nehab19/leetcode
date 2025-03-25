@@ -1,0 +1,37 @@
+/**leetcode link : https://leetcode.com/problems/check-if-grid-can-be-cut-into-sections/description/?envType=daily-question&envId=2025-03-25 **/
+
+class Solution {
+    public boolean checkValidCuts(int n, int[][] rectangles) {
+        /**here we would check if both horizantal and vertical cuts can match */
+        /** as 0 represents x axis cuts while 1 represents y axis cuts because the array is in form of (startx,starty,endx,endy) */
+        return checkCuts(rectangles,0)|| checkCuts(rectangles,1);
+    }
+
+    public boolean checkCuts(int[][] rectangles, int dimension) {
+        int gapCount = 0;
+        /**
+         * the array would be sorted according to dimension means either startx or
+         * either starty
+         */
+        Arrays.sort(rectangles, (x, y) -> Integer.compare(x[dimension], y[dimension]));
+
+        /** find the first element farther point */
+        /** 2 is added because to find the end of either x or y */
+        int furthestElement = rectangles[0][dimension + 2];
+
+        for (int i = 1; i < rectangles.length; i++) {
+            int[] element = rectangles[i];
+            /**
+             * now to check if there is gap between the previous furthest element and
+             * existing start element
+             */
+
+            if (furthestElement <= element[dimension]) {
+                gapCount++;
+            }
+            /** else we would update the furthest element */
+            furthestElement = Math.max(furthestElement, element[dimension + 2]);
+        }
+        return gapCount >= 2;
+    }
+}
