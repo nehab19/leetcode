@@ -1,0 +1,36 @@
+/**leetcode link : https://leetcode.com/problems/remove-duplicate-letters/?envType=problem-list-v2&envId=stack **/
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int[] lastIndex = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            /** it would calculate where the character occurred last */
+            lastIndex[s.charAt(i) - 'a'] = i;
+        }
+        boolean[] seenElement = new boolean[26];
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            int currentCharacter = s.charAt(i) - 'a';
+            if (seenElement[currentCharacter]) {
+                continue;
+            }
+            /**
+             * it means we would check if the current element is smaller than the element
+             * present in the stack to maintain the lexicographically order. And we would
+             * check if we are removing then that element exists later in the array
+             */
+            while (!stack.isEmpty() && stack.peek() > currentCharacter && lastIndex[stack.peek()] > i) {
+                /** pop up the element and mark that element as false */
+                seenElement[stack.pop()] = false;
+            }
+            stack.push(currentCharacter);
+            seenElement[currentCharacter] = true;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        while(!stack.isEmpty()) {
+            stringBuilder.append((char) (stack.pop() + 'a'));
+        }
+        return stringBuilder.reverse().toString();
+
+    }
+}
