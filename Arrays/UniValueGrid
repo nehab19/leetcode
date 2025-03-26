@@ -1,0 +1,35 @@
+/**leetcode link : https://leetcode.com/problems/minimum-operations-to-make-a-uni-value-grid/description/ **/
+
+class Solution {
+    public int minOperations(int[][] grid, int x) {
+        List<Integer> numbers = new ArrayList<>();
+        int result = 0;
+        /**
+         * now for every row there will be columns so we would flatten the array to
+         * single
+         */
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[0].length; column++) {
+                numbers.add(grid[row][column]);
+            }
+        }
+        /** now we would sort the elements to find the median */
+        Collections.sort(numbers);
+
+        /** find the median */
+        int numArraySize = numbers.size();
+        int median = numbers.get(numArraySize / 2);
+
+        /** now iterate to make the number equal to median */
+        for (int num : numbers) {
+            /**
+             * first we would check if numbers are divisible by x then only we can proceed
+             */
+            if ((median - num) % x != 0) {
+                return -1;
+            }
+            result = result + Math.abs(median - num) / x;
+        }
+        return result;
+    }
+}
